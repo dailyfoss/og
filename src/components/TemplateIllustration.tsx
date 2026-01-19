@@ -1,6 +1,6 @@
 import React from "react";
 
-export const TemplateIllustration: React.FC = props => {
+export const TemplateIllustration: React.FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -86,25 +86,7 @@ export const TemplateIllustration: React.FC = props => {
             shape-rendering="crispEdges"
           />
         </g>
-        <g filter="url(#j)" shape-rendering="crispEdges">
-          <path
-            fill="url(#k)"
-            d="M1062.22 538.539c-.11.802-.19 1.609-.22 2.417h36.46c-.13-.248-.3-.473-.47-.692-6.23-8.053-9.59-7.355-14.38-7.559-1.6-.066-2.69-.092-9.05-.092-3.41 0-7.11.008-10.72.018-.47 1.26-.92 2.482-1.14 3.475h18.69v2.433h-19.17Zm36.53 4.853h-36.73c.04.649.1 1.29.19 1.922h33.9c1.52 0 2.36-.858 2.64-1.922Zm-34.64 8.56s5.62 13.803 21.86 14.048c9.71 0 18.05-5.766 21.84-14.048h-43.7Z"
-          />
-          <path
-            fill="url(#l)"
-            d="M1085.97 518c-8.97 0-16.78 4.929-20.91 12.216 3.23-.007 9.5-.01 9.5-.01v-.003c7.43 0 7.7.033 9.15.094l.9.033c3.12.104 6.97.44 9.99 2.728 1.64 1.24 4.01 3.979 5.43 5.93 1.3 1.805 1.68 3.879.79 5.867-.82 1.827-2.58 2.916-4.71 2.916h-33.33s.2.841.5 1.77h45.5c.8-2.429 1.22-4.971 1.22-7.531 0-13.259-10.76-24.01-24.03-24.01Z"
-          />
-        </g>
-        <path
-          fill="#fff"
-          d="M1062.22 538.539c-.11.802-.19 1.609-.22 2.417h36.46c-.13-.248-.3-.473-.47-.692-6.23-8.053-9.59-7.355-14.38-7.559-1.6-.066-2.69-.092-9.05-.092-3.41 0-7.11.008-10.72.018-.47 1.26-.92 2.482-1.14 3.475h18.69v2.433h-19.17Zm36.53 4.853h-36.73c.04.649.1 1.29.19 1.922h33.9c1.52 0 2.36-.858 2.64-1.922Zm-34.64 8.56s5.62 13.803 21.86 14.048c9.71 0 18.05-5.766 21.84-14.048h-43.7Z"
-        />
-        <path
-          fill="#fff"
-          d="M1085.97 518c-8.97 0-16.78 4.929-20.91 12.216 3.23-.007 9.5-.01 9.5-.01v-.003c7.43 0 7.7.033 9.15.094l.9.033c3.12.104 6.97.44 9.99 2.728 1.64 1.24 4.01 3.979 5.43 5.93 1.3 1.805 1.68 3.879.79 5.867-.82 1.827-2.58 2.916-4.71 2.916h-33.33s.2.841.5 1.77h45.5c.8-2.429 1.22-4.971 1.22-7.531 0-13.259-10.76-24.01-24.03-24.01Z"
-        />
-        <path fill="url(#m)" fill-opacity=".08" d="M81 474h596v2H81v-2Z" />
+
       </g>
       <defs>
         <radialGradient
@@ -128,28 +110,6 @@ export const TemplateIllustration: React.FC = props => {
         >
           <stop offset=".401" stop-color="#D9D9D9" />
           <stop offset="1" stop-color="#D9D9D9" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient
-          id="k"
-          cx="0"
-          cy="0"
-          r="1"
-          gradientTransform="matrix(0 82.8 -82.7999 0 1086 506)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stop-color="#fff" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient
-          id="l"
-          cx="0"
-          cy="0"
-          r="1"
-          gradientTransform="matrix(0 82.8 -82.7999 0 1086 506)"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stop-color="#fff" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
         </radialGradient>
         <linearGradient
           id="g"
@@ -237,45 +197,6 @@ export const TemplateIllustration: React.FC = props => {
             in2="effect3_dropShadow_863_8621"
             result="shape"
           />
-        </filter>
-        <filter
-          id="j"
-          width="56"
-          height="56"
-          x="1058"
-          y="518"
-          color-interpolation-filters="sRGB"
-          filterUnits="userSpaceOnUse"
-        >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
-          <feColorMatrix
-            in="SourceAlpha"
-            result="hardAlpha"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          />
-          <feOffset dy="4" />
-          <feGaussianBlur stdDeviation="2" />
-          <feComposite in2="hardAlpha" operator="out" />
-          <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.13 0" />
-          <feBlend
-            in2="BackgroundImageFix"
-            result="effect1_dropShadow_863_8621"
-          />
-          <feBlend
-            in="SourceGraphic"
-            in2="effect1_dropShadow_863_8621"
-            result="shape"
-          />
-          <feColorMatrix
-            in="SourceAlpha"
-            result="hardAlpha"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          />
-          <feOffset dy="1" />
-          <feGaussianBlur stdDeviation="3" />
-          <feComposite in2="hardAlpha" k2="-1" k3="1" operator="arithmetic" />
-          <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0" />
-          <feBlend in2="shape" result="effect2_innerShadow_863_8621" />
         </filter>
       </defs>
     </svg>

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export type FileType = "svg" | "png";
+export type FileType = "svg" | "png" | "webp";
 
 export interface IConfig {
   fileType?: FileType;

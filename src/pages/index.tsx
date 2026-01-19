@@ -100,11 +100,6 @@ export default Home;
 
 export const Config: React.FC = () => {
   const [{ layoutName }, setConfig] = useConfig();
-  const [isSVGCopied, copySVG] = useCopy();
-  const [isPNGCopied, copyPNG] = useCopy();
-
-  const svgImageUrl = useImageUrl("svg");
-  const pngImageUrl = useImageUrl("png");
 
   const layout = useMemo(
     () => layouts.find(l => l.name === layoutName),
@@ -131,45 +126,61 @@ export const Config: React.FC = () => {
           <Layout layout={layout} key={layout.name} />
         )}
       </div>
-
-      <div tw="space-y-6">
-        <div className="buttons" tw="flex space-x-2 justify-end">
-          <button
-            css={[buttonStyles]}
-            onClick={() => copySVG(`${window.location.origin}${svgImageUrl}`)}
-          >
-            {isSVGCopied ? "Copied!" : "Copy SVG Url"}
-          </button>
-          <button
-            css={[buttonStyles]}
-            onClick={() => copyPNG(`${window.location.origin}${pngImageUrl}`)}
-          >
-            {isPNGCopied ? "Copied!" : "Copy PNG Url"}
-          </button>
-        </div>
-
-        <p
-          tw="bg-gray-100 p-4 rounded font-mono whitespace-normal break-words text-sm"
-          style={{ wordBreak: "break-all" }}
-        >
-          <Link href={svgImageUrl} target="_blank" tw="hover:text-pink-600">
-            {svgImageUrl.replace("fileType=svg&", "")}
-          </Link>
-        </p>
-      </div>
     </div>
   );
 };
 
 export const Viewer: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(true);
+  const [previewFormat, setPreviewFormat] = useState<"svg" | "png" | "webp">("png");
+  
   const svgImageUrl = useImageUrl("svg");
+  const pngImageUrl = useImageUrl("png");
+  const webpImageUrl = useImageUrl("webp");
 
-  const debouncedImageURL = useDebouncedValue(svgImageUrl, 200);
+  const currentImageUrl = previewFormat === "svg" ? svgImageUrl : previewFormat === "png" ? pngImageUrl : webpImageUrl;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || (typeof window !== 'undefined' ? window.location.origin : '');
+  const shareUrl = `${baseUrl}${currentImageUrl}`;
+
+  const debouncedImageURL = useDebouncedValue(currentImageUrl, 200);
   useEffect(() => setIsLoaded(false), [debouncedImageURL]);
+
+  const [isShareUrlCopied, copyShareUrl] = useCopy();
 
   return (
     <section tw="space-y-4 w-full">
+      <div tw="flex justify-between items-center">
+        <h3 tw="text-lg font-semibold">Preview</h3>
+        <div tw="flex space-x-2">
+          <button
+            css={[
+              buttonStyles,
+              previewFormat === "svg" && tw`bg-pink-500 text-white hover:bg-pink-600`,
+            ]}
+            onClick={() => setPreviewFormat("svg")}
+          >
+            SVG
+          </button>
+          <button
+            css={[
+              buttonStyles,
+              previewFormat === "png" && tw`bg-pink-500 text-white hover:bg-pink-600`,
+            ]}
+            onClick={() => setPreviewFormat("png")}
+          >
+            PNG
+          </button>
+          <button
+            css={[
+              buttonStyles,
+              previewFormat === "webp" && tw`bg-pink-500 text-white hover:bg-pink-600`,
+            ]}
+            onClick={() => setPreviewFormat("webp")}
+          >
+            WebP
+          </button>
+        </div>
+      </div>
       <div
         className="image-wrapper"
         css={[
@@ -185,9 +196,29 @@ export const Viewer: React.FC = () => {
             },
           ]}
           src={debouncedImageURL}
-          alt={`Dynamically generated OG image`}
+          alt={`Dynamically generated OG image (${previewFormat.toUpperCase()})`}
           onLoad={() => setIsLoaded(true)}
         />
+      </div>
+
+      <div tw="space-y-3 mt-6">
+        <div tw="flex items-center justify-between">
+          <Label>Share URL ({previewFormat.toUpperCase()})</Label>
+          <button
+            css={[buttonStyles]}
+            onClick={() => copyShareUrl(shareUrl)}
+          >
+            {isShareUrlCopied ? "Copied!" : "Copy URL"}
+          </button>
+        </div>
+        <p
+          tw="bg-gray-100 p-4 rounded font-mono whitespace-normal break-words text-sm"
+          style={{ wordBreak: "break-all" }}
+        >
+          <Link href={currentImageUrl} target="_blank" tw="hover:text-pink-600">
+            {shareUrl}
+          </Link>
+        </p>
       </div>
     </section>
   );
