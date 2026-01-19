@@ -1,5 +1,5 @@
 {
-  "name": "railway-og-image-generator",
+  "name": "dailyfoss-og-image-generator",
   "private": true,
   "engines": {
     "node": ">=18.0.0"
