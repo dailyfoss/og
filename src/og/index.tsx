@@ -1,6 +1,7 @@
 import { ILayout, ILayoutConfig } from "../layouts/types";
 import satori from "satori";
 import { Resvg, ResvgRenderOptions } from "@resvg/resvg-js";
+import sharp from "sharp";
 import fs from "fs";
 import { SatoriOptions } from "satori";
 import { OG_HEIGHT, OG_WIDTH } from "../constants";
@@ -43,15 +44,63 @@ const resvgOpts: ResvgRenderOptions = {
     mode: "width",
     value: OG_WIDTH,
   },
+  shapeRendering: 2, // optimizeSpeed
+  textRendering: 2, // optimizeLegibility
+  imageRendering: 0, // optimizeQuality
+};
+
+// Higher resolution for better quality raster images
+const resvgOptsHighRes: ResvgRenderOptions = {
+  fitTo: {
+    mode: "width",
+    value: OG_WIDTH * 2, // 2x resolution for better quality
+  },
   shapeRendering: 2,
   textRendering: 2,
   imageRendering: 0,
 };
 
 export const renderSVGToPNG = async (svg: string) => {
-  const resvg = new Resvg(svg, resvgOpts);
+  const resvg = new Resvg(svg, resvgOptsHighRes);
   const pngData = resvg.render();
   const pngBuffer = pngData.asPng();
 
-  return pngBuffer;
+  // Resize back to original dimensions with high quality
+  const optimizedPng = await sharp(pngBuffer)
+    .resize(OG_WIDTH, OG_HEIGHT, {
+      kernel: sharp.kernel.lanczos3,
+      fit: 'fill',
+    })
+    .png({
+      quality: 100,
+      compressionLevel: 6,
+    })
+    .toBuffer();
+
+  return optimizedPng;
+};
+
+export const renderSVGToWebP = async (svg: string) => {
+  const resvg = new Resvg(svg, resvgOptsHighRes);
+  const pngData = resvg.render();
+  const pngBuffer = pngData.asPng();
+
+  // Convert to WebP with aggressive compression for smaller file size
+  // Quality 75 provides good visual quality while reducing file size significantly
+  const webpBuffer = await sharp(pngBuffer)
+    .resize(OG_WIDTH, OG_HEIGHT, {
+      kernel: sharp.kernel.lanczos3,
+      fit: 'fill',
+    })
+    .webp({
+      quality: 75,           // Reduced for smaller files (still good quality)
+      alphaQuality: 100,
+      lossless: false,
+      nearLossless: false,
+      smartSubsample: true,
+      effort: 6,             // Maximum compression effort
+    })
+    .toBuffer();
+
+  return webpBuffer;
 };

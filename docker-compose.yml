@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  og-dailyfoss:
+    image: og-dailyfoss:latest
+    container_name: og-dailyfoss
+    restart: unless-stopped
+    ports:
+      - "3009:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BASE_URL=https://og.dailyfoss.biz.id
+      - PORT=3000
+      # Cloudflare Cache Purge Configuration
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - CLOUDFLARE_ZONE_ID=${CLOUDFLARE_ZONE_ID}
+      - PURGE_CACHE_TOKEN=${PURGE_CACHE_TOKEN}
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - og-network
+
+networks:
+  og-network:
+    driver: bridge

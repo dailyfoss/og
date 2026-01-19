@@ -2,12 +2,19 @@ import { NextApiHandler } from "next";
 import { z } from "zod";
 
 import { getLayoutAndConfig } from "../../layouts";
-import { renderLayoutToSVG, renderSVGToPNG } from "../../og";
+import { renderLayoutToSVG, renderSVGToPNG, renderSVGToWebP } from "../../og";
 import { sanitizeHtml } from "../../layouts/utils";
+
+// Increase response size limit for large SVGs with embedded images
+export const config = {
+  api: {
+    responseLimit: false,
+  },
+};
 
 const imageReq = z.object({
   layoutName: z.string(),
-  fileType: z.enum(["svg", "png"]).nullish(),
+  fileType: z.enum(["svg", "png", "webp"]).nullish(),
 });
 
 const handler: NextApiHandler = async (req, res) => {
@@ -33,6 +40,9 @@ const handler: NextApiHandler = async (req, res) => {
     if (fileType === "png") {
       const png = await renderSVGToPNG(svg);
       res.end(png);
+    } else if (fileType === "webp") {
+      const webp = await renderSVGToWebP(svg);
+      res.end(webp);
     } else {
       res.end(svg);
     }
